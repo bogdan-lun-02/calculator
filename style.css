@@ -1,0 +1,14 @@
+.calculator {
+  display: flex;
+  width: 800px;
+  height: 600px;
+  background-color: #bada55;
+}
+
+.first-row {
+  display: flex;
+}
+
+.number-button {
+  
+}
