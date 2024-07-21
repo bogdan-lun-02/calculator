@@ -1,38 +1,74 @@
-function add(x, y) {
-  console.log(x + y) 
-}
 
-function subtract(x, y) {
-  console.log(x - y) 
-}
+// function operate(firstNumber, operator, secondNumber) {
+// 	if (operator === '+') return add(firstNumber, secondNumber)
+// 	else if (operator === '-') return subtract(firstNumber, secondNumber)
+// 	else if (operator === '*') return multiply(firstNumber, secondNumber)
+// 	else if (operator === '/') return divide(firstNumber, secondNumber)
+// 	else return 'WRONG OPERATOR!'
+// }
 
-function multiply(x, y) {
-  console.log(x * y) 
-}
-
-function divide(x, y) {
-  console.log(x / y) 
-}
-
-// add(344, 231);
-// subtract(555, 233);
-// multiply(21, 33);
-// divide(888, 4);
-
+const numberButtons = document.querySelectorAll('.number');
+const operatorButtons = document.querySelectorAll('.operator');
+const equalButton = document.querySelector('.equal');
+const display = document.querySelector('.display');
 
 let firstNumber = '';
 let operator = '';
 let secondNumber = '';
 
+// event listeners
 
-function operate(firstNumber, operator, secondNumber) {
-  if (operator === '+') return add(firstNumber, secondNumber);
-	else if (operator === '-') return subtract(firstNumber, secondNumber);
-	else if (operator === '*') return multiply(firstNumber, secondNumber);
-	else if (operator === '/') return divide(firstNumber, secondNumber);
-  else return 'WRONG OPERATOR!'
+numberButtons.forEach((button) => {
+  button.addEventListener('click', addNumbers)
+})
+
+operatorButtons.forEach(button => {
+	button.addEventListener('click', addOperator)
+})
+
+equalButton.addEventListener('click', () => {
+  if (operator === '+') display.textContent = add(firstNumber, secondNumber)
+	else if (operator === '-')
+		display.textContent = subtract(firstNumber, secondNumber)
+	else if (operator === '*')
+		display.textContent = multiply(firstNumber, secondNumber)
+	else if (operator === '/')
+		display.textContent = divide(firstNumber, secondNumber)
+});
+
+// function declarations
+
+function addNumbers(e) {
+  if (operator === '') {
+		firstNumber += e.target.value;
+    display.textContent = `${firstNumber} ${operator} ${secondNumber}`;
+	} 
+  
+  else secondNumber += e.target.value;
+  display.textContent = `${firstNumber} ${operator} ${secondNumber}`;
 }
 
-operate(344, '+', 231);
-operate(2344, '-', 299);
-operate(5000, '*', 20);
+function addOperator(e) {
+	operator += e.target.value;
+  display.textContent = `${firstNumber} ${operator} ${secondNumber}`;
+}
+
+const operateResult = '';
+
+
+
+function add(x, y) {
+  return Number(x) + Number(y)
+}
+
+function subtract(x, y) {
+  return Number(x) - Number(y)  
+}
+
+function multiply(x, y) {
+  return Number(x) * Number(y)   
+}
+
+function divide(x, y) {
+  return Number(x) / Number(y)  
+}
