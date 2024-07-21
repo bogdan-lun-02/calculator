@@ -10,37 +10,41 @@
 <body>
   <div class="calculator">
     <div class="row">
-      <div class="display" id="display">--------</div>
+      <div class="display" id="display">0</div>
     </div>
-    <!-- <input type="button" class="button clear" id="clear" value="CE"></input> -->
+    <div class="row">
+      <input type="button" class="button clear clear-all" id="clear" value="CE"></input>
+      <input type="button" class="button clear backspace" id="backspace" value="backspace">
+      <input type="button" class="button">
+      <input type="button" class="button function equal" id="=" value="="></input>
+    </div>
+    
     <div class="row">
       <input type="button" class="button number" id="1" value="1"></input>
       <input type="button" class="button number" id="2" value="2"></input>
       <input type="button" class="button number" id="3" value="3"></input>
+      <input type="button" class="button function operator" id="+" value="+"></input>
     </div>
 
     <div class="row">
       <input type="button" class="button number" id="4" value="4"></input>
       <input type="button" class="button number" id="5" value="5"></input>
       <input type="button" class="button number" id="6" value="6"></input>
+      <input type="button" class="button function operator" id="-" value="-"></input>
     </div>
 
     <div class="row">
       <input type="button" class="button number" id="7" value="7"></input>
       <input type="button" class="button number" id="8" value="8"></input>
       <input type="button" class="button number" id="9" value="9"></input>
+      <input type="button" class="button function operator" id="*" value="*"></input>
     </div>
 
     <div class="row">
-      <input type="button" class="button number" id="0" value="0"></input>
-      <input type="button" class="button operator" id="+" value="+"></input>
-      <input type="button" class="button operator" id="-" value="-"></input>
+      <input type="button" class="button number" id="zero" value="0"></input>
+      <input type="button" class="button decimal" id="." value=".">
+      <input type="button" class="button function operator" id="divide" value="/"></input>
     </div>
-
-    <div class="row">
-      <input type="button" class="button operator" id="*" value="*"></input>
-      <input type="button" class="button operator" id="/" value="/"></input>
-      <input type="button" class="button equal" id="=" value="="></input>
     </div>
   </div>
 
