@@ -41,8 +41,8 @@
   color: white;
 }
 
-.button:active {
-  transform: translateY(1px);
+.active {
+   background-color: #ad0a30;
 }
 
 .function {
@@ -57,6 +57,7 @@
 
 .display {
   display: flex;
+  flex: 1;
   justify-content: flex-end;
   align-items: center;
   font-family: digital-7;
