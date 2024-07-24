@@ -7,6 +7,7 @@ let firstNumber = '';
 let operator = '';
 let secondNumber = '';
 let totalCount = '';
+let numberOfOperations = 0;
 
 // event listeners
 
@@ -23,7 +24,7 @@ equalButton.addEventListener('click', operate);
 // function declarations
 
 function addNumbers(e) {
-  if (totalCount !== '') {
+  if (numberOfOperations > 0) {
     secondNumber += e.target.value;
     display.textContent = secondNumber;
   }
@@ -33,8 +34,8 @@ function addNumbers(e) {
     display.textContent = firstNumber;
   }
   else if (operator !== '') {
-		secondNumber += e.target.value
-		display.textContent = secondNumber
+		secondNumber += e.target.value;
+		display.textContent = secondNumber;
 	}
 }
 }
@@ -46,7 +47,6 @@ function addOperator(e) {
   }
 	else {if (operator === '') {
 			operator += e.target.value;
-			e.target.style.backgroundColor = '#ad0a30';
 		} else {
 			operate()
 		}
@@ -54,31 +54,65 @@ function addOperator(e) {
 }
 
 function operate() {
-  if (operator === '+') {
+
+  if (firstNumber === '' && secondNumber === '' && numberOfOperations === 0) {
+    totalCount = 0;
+    display.textContent = totalCount;
+  }
+
+  else if ((operator === '' || secondNumber === '') && numberOfOperations === 0) {
+    display.textContent = firstNumber;
+  }
+
+  else { if (operator === '+') {
 		totalCount = add(firstNumber, secondNumber)
 	} else if (operator === '-') {
 		totalCount = subtract(firstNumber, secondNumber)
-	}
+	} else if (operator === '*') {
+    totalCount = multiply(firstNumber, secondNumber)
+  } else if (operator === '/') {
+    totalCount = divide(firstNumber, secondNumber)
+  }
 
   display.textContent = totalCount;
   firstNumber = totalCount;
+  totalCount = '';
   operator = '';
   secondNumber = '';
-}
+  numberOfOperations++;
+}}
 
 
 function add(x, y) {
-  return Number(x) + Number(y)
+  let num = Number(x) + Number(y);
+  let roundedNum = roundDecimal(num);
+  return roundedNum;
 }
 
 function subtract(x, y) {
-  return Number(x) - Number(y)  
+  let num = Number(x) - Number(y);
+	let roundedNum = roundDecimal(num);
+	return roundedNum;
 }
 
 function multiply(x, y) {
-  return Number(x) * Number(y)   
+  let num = Number(x) * Number(y);
+	let roundedNum = roundDecimal(num);
+	return roundedNum;
 }
 
 function divide(x, y) {
-  return Number(x) / Number(y)  
+  let num = Number(x) / Number(y);
+	let roundedNum = roundDecimal(num);
+	return roundedNum;
+}
+
+function roundDecimal(num) {
+  if (Number.isInteger(num)) {
+    return num;
+  } else {
+    let countDecimal = num.toString().split('.')[1].length;
+    if (countDecimal > 5) return num.toFixed(5);
+    else return num;
+  } 
 }
