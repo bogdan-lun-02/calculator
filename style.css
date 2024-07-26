@@ -41,6 +41,10 @@
   color: white;
 }
 
+.button:active {
+  transform: translateY(2px);
+}
+
 .active {
    background-color: #ad0a30;
 }

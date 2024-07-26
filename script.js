@@ -1,118 +1,129 @@
-const numberButtons = document.querySelectorAll('.number');
-const operatorButtons = document.querySelectorAll('.operator');
-const equalButton = document.querySelector('.equal');
-const display = document.querySelector('.display');
+const numberButtons = document.querySelectorAll('.number')
+const operatorButtons = document.querySelectorAll('.operator')
+const equalsButton = document.querySelector('.equal')
+const clearAllButton = document.querySelector('.clear-all')
+const deleteButton = document.querySelector('.backspace')
+const display = document.querySelector('.display')
+const decimalButton = document.querySelector('.decimal')
+const clearOneButton = document.querySelector('.backspace')
 
-let firstNumber = '';
-let operator = '';
-let secondNumber = '';
-let totalCount = '';
-let numberOfOperations = 0;
+let firstNumber = ''
+let secondNumber = ''
+let operator = ''
+let finish = false
+let totalCount = 0
+let decimalAdded = false
 
-// event listeners
+display.textContent = totalCount
 
-numberButtons.forEach((button) => {
-  button.addEventListener('click', addNumbers)
+numberButtons.forEach(button => {
+	button.addEventListener('click', addNumber)
 })
 
 operatorButtons.forEach(button => {
 	button.addEventListener('click', addOperator)
 })
 
-equalButton.addEventListener('click', operate);
+equalsButton.addEventListener('click', operate)
 
-// function declarations
+decimalButton.addEventListener('click', addDecimal)
 
-function addNumbers(e) {
-  if (numberOfOperations > 0) {
-    secondNumber += e.target.value;
-    display.textContent = secondNumber;
-  }
+clearAllButton.addEventListener('click', clearAll)
 
-  else { if (operator === '') {
-    firstNumber += e.target.value;
-    display.textContent = firstNumber;
-  }
-  else if (operator !== '') {
-		secondNumber += e.target.value;
-		display.textContent = secondNumber;
+clearOneButton.addEventListener('click', clearOne)
+
+function addNumber(e) {
+	// if (firstNumber.length > 4 || secondNumber.length > 4)  return;
+
+	if (secondNumber === '' && operator === '') {
+		firstNumber += e.target.value
+		display.textContent = firstNumber
+	} else if (firstNumber !== '' && secondNumber !== '' && finish) {
+		secondNumber += e.target.value
+		finish = false
+		display.textContent = secondNumber
+	} else {
+		secondNumber += e.target.value
+		display.textContent = secondNumber
 	}
-}
 }
 
 function addOperator(e) {
-  if (totalCount !== '') {
-    operator += e.target.value;
-    operate();
-  }
-	else {if (operator === '') {
-			operator += e.target.value;
-		} else {
-			operate()
-		}
-  }
+	if (firstNumber !== '' && operator !== '') {
+		operate()
+	}
+
+	operator += e.target.value
+	e.target.style.backgroundColor = '#ad0a30'
 }
 
 function operate() {
+	firstNumber = Number(firstNumber)
+	secondNumber = Number(secondNumber)
 
-  if (firstNumber === '' && secondNumber === '' && numberOfOperations === 0) {
-    totalCount = 0;
-    display.textContent = totalCount;
-  }
-
-  else if ((operator === '' || secondNumber === '') && numberOfOperations === 0) {
-    display.textContent = firstNumber;
-  }
-
-  else { if (operator === '+') {
-		totalCount = add(firstNumber, secondNumber)
+	if (operator === '+') {
+		firstNumber += secondNumber
 	} else if (operator === '-') {
-		totalCount = subtract(firstNumber, secondNumber)
+		firstNumber -= secondNumber
 	} else if (operator === '*') {
-    totalCount = multiply(firstNumber, secondNumber)
-  } else if (operator === '/') {
-    totalCount = divide(firstNumber, secondNumber)
-  }
+		firstNumber *= secondNumber
+	} else if (operator === '/') {
+		if (secondNumber === 0) return (display.textContent = 'ERROR')
+		else firstNumber /= secondNumber
+	}
 
-  display.textContent = totalCount;
-  firstNumber = totalCount;
-  totalCount = '';
-  operator = '';
-  secondNumber = '';
-  numberOfOperations++;
-}}
+	firstNumber = roundNumber(firstNumber)
+	totalCount = String(firstNumber)
+	display.textContent = totalCount
+	finish = true
+	secondNumber = ''
+	operator = ''
 
-
-function add(x, y) {
-  let num = Number(x) + Number(y);
-  let roundedNum = roundDecimal(num);
-  return roundedNum;
+	operatorButtons.forEach(button => {
+		button.style.backgroundColor = '#2a2a2e'
+	})
 }
 
-function subtract(x, y) {
-  let num = Number(x) - Number(y);
-	let roundedNum = roundDecimal(num);
-	return roundedNum;
+function roundNumber(num) {
+	return Math.round(num * 1000) / 1000
 }
 
-function multiply(x, y) {
-  let num = Number(x) * Number(y);
-	let roundedNum = roundDecimal(num);
-	return roundedNum;
+function addDecimal() {
+	if (operator === '' && finish === false) {
+		firstNumber = Number(firstNumber).toFixed(1)
+		firstNumber = String(firstNumber).slice(0, -1)
+		display.textContent = firstNumber
+		decimalAdded = true
+	} else if (operator !== '' && finish === false) {
+		decimalAdded = false
+		secondNumber = Number(secondNumber).toFixed(1)
+		secondNumber = String(secondNumber).slice(0, -1)
+		display.textContent = secondNumber
+		decimalAdded = true
+	} else if (finish === true) {
+		secondNumber = Number(secondNumber).toFixed(1)
+		secondNumber = String(secondNumber).slice(0, -1)
+		display.textContent = secondNumber
+		decimalAdded = true
+	}
 }
 
-function divide(x, y) {
-  let num = Number(x) / Number(y);
-	let roundedNum = roundDecimal(num);
-	return roundedNum;
+function clearAll() {
+	firstNumber = ''
+	secondNumber = ''
+	operator = ''
+	finish = false
+	totalCount = 0
+	decimalAdded = false
+	display.textContent = 0
 }
 
-function roundDecimal(num) {
-  if (Number.isInteger(num)) {
-    return num;
-  } else {
-    let countDecimal = num.toString().split('.')[1].length;
-    if (countDecimal > 5) return num.toFixed(5);
-    else return num;
-  } 
+function clearOne() {
+	if (operator === '' && finish === false) {
+		firstNumber = String(firstNumber).slice(0, -1)
+		display.textContent = firstNumber
+	} else if (operator !== '' && finish === false) {
+		secondNumber = String(secondNumber).slice(0, -1)
+		display.textContent = secondNumber
+	}
 }
